@@ -102,7 +102,7 @@ lazy val parsleyCats = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(PureVisible)
   .in(file("."))
   .settings(
-    name := "Parsley cats",
+    name := projectName,
     moduleName := projectName,
     scalaVersion := scala213Version,
 
