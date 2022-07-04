@@ -17,20 +17,23 @@ object catsinstances {
 
             // Applicative
             override def pure[A](x: A): Parsley[A] = Parsley.pure(x)
+            override def unit: Parsley[Unit] = Parsley.unit
+            override def point[A](x: A): Parsley[A] = Parsley.pure(x)
 
             // MonoidK
             override def combineK[A](p: Parsley[A], q: Parsley[A]): Parsley[A] = p <|> q
 
             override def empty[A]: Parsley[A] = Parsley.empty
 
+            // Functor Overrides
+            override def map[A, B](mx: Parsley[A])(f: A => B): Parsley[B] = mx.map(f)
+            override def as[A, B](mx: Parsley[A], y: B): Parsley[B] = mx #> y
+            override def void[A](mx: Parsley[A]): Parsley[Unit] = mx.void
+
             // FunctorFilter
             override def functor: Functor[Parsley] = this
 
             override def mapFilter[A, B](mx: Parsley[A])(f: A => Option[B]): Parsley[B] = mx.collect(f.unlift)
-
-            // Functor Overrides
-            override def map[A, B](mx: Parsley[A])(f: A => B): Parsley[B] = mx.map(f)
-            override def as[A, B](mx: Parsley[A], y: B): Parsley[B] = mx #> y
 
             // Applicative Overrides
             override def productL[A, B](mx: Parsley[A])(my: Parsley[B]): Parsley[A] = mx <~ my
@@ -38,6 +41,9 @@ object catsinstances {
             override def product[A, B](mx: Parsley[A], my: Parsley[B]): Parsley[(A, B)] = mx <~> my
             override def ap[A, B](mf: Parsley[A => B])(mx: Parsley[A]): Parsley[B] = mf <*> mx
             // maps and tupleds
+
+            override def replicateA[A](n: Int, mx: Parsley[A]): Parsley[List[A]] = combinator.exactly(n, mx)
+            override def replicateA_[A](n: Int, mx: Parsley[A]): Parsley[Unit] = replicateA(n, mx).void
 
             // Monad Overrides
             override def ifM[B](mx: Parsley[Boolean])(ifTrue: => Parsley[B], ifFalse: => Parsley[B]): Parsley[B] = combinator.ifP(mx, ifTrue, ifFalse)
@@ -61,8 +67,19 @@ object catsinstances {
                 map2(body, whileM(cond)(body))(G.prependK(_, _))
             }
 
+            override def untilDefinedM[A](mox: Parsley[Option[A]]): Parsley[A] = {
+                lazy val loop: Parsley[A] = combinator.decide(mox, loop)
+                loop
+            }
+
+            //override def iterateUntil[A](f: Parsley[A])(p: A => Boolean): Parsley[A] = ???
+            //override def iterateWhile[A](f: Parsley[A])(p: A => Boolean): Parsley[A] = ???
+            //override def ifElseM[A](branches: (Parsley[Boolean], Parsley[A])*)(els: Parsley[A]): Parsley[A] = ???
+
             // MonoidK Overrides
             override def sum[A, B](mx: Parsley[A], my: Parsley[B])(implicit F: Functor[Parsley]): Parsley[Either[A,B]] = mx <+> my
+            override def combineAllK[A](ps: IterableOnce[Parsley[A]]): Parsley[A] = combinator.choice(ps.toSeq: _*)
+            override def combineAllOptionK[A](ps: IterableOnce[Parsley[A]]): Option[Parsley[A]] = ps.reduceRightOption(_<|>_)
 
             // FunctorFilter Overrides
             override def filter[A](mx: Parsley[A])(f: A => Boolean): Parsley[A] = mx.filter(f)
