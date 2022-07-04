@@ -109,7 +109,7 @@ lazy val parsleyCats = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     resolvers += Opts.resolver.sonatypeSnapshots,
 
     libraryDependencies += "org.scalatest" %%% "scalatest" % scalaTestDependency(scalaVersion.value) % Test,
-    libraryDependencies += "com.github.j-mie6" %%% "parsley" % "4.0.0+84-866002fe-SNAPSHOT" % Provided,
+    libraryDependencies += "com.github.j-mie6" %%% "parsley" % "4.0.0+86-5b520c7c-SNAPSHOT" % Provided,
     libraryDependencies += "org.typelevel" %%% "cats-core" % "2.8.0" % Provided,
 
     Compile / unmanagedSourceDirectories ++= extraSources(baseDirectory.value.getParentFile, "main", scalaVersion.value),

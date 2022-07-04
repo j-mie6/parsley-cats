@@ -33,7 +33,7 @@ object catsinstances {
             // FunctorFilter
             override def functor: Functor[Parsley] = this
 
-            override def mapFilter[A, B](mx: Parsley[A])(f: A => Option[B]): Parsley[B] = mx.collect(f.unlift)
+            override def mapFilter[A, B](mx: Parsley[A])(f: A => Option[B]): Parsley[B] = mx.mapFilter(f)
 
             // Applicative Overrides
             override def productL[A, B](mx: Parsley[A])(my: Parsley[B]): Parsley[A] = mx <~ my
