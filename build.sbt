@@ -5,7 +5,7 @@ import scala.collection.mutable
 import sbtcrossproject.Platform
 import org.scalajs.linker.interface.ESVersion
 
-val projectName = "parsleycats"
+val projectName = "parsley-cats"
 
 inThisBuild(List(
   organization := "com.github.j-mie6",
