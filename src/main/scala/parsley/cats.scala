@@ -42,7 +42,7 @@ object catsinstances {
             override def ap[A, B](mf: Parsley[A => B])(mx: Parsley[A]): Parsley[B] = mf <*> mx
 
             override def replicateA[A](n: Int, mx: Parsley[A]): Parsley[List[A]] = combinator.exactly(n, mx)
-            override def replicateA_[A](n: Int, mx: Parsley[A]): Parsley[Unit] = combinator.skip((0 until n).map(_ => mx): _*)
+            override def replicateA_[A](n: Int, mx: Parsley[A]): Parsley[Unit] = combinator.skip(mx, (1 until n).map(_ => mx): _*)
 
             // Monad Overrides
             override def ifM[B](mx: Parsley[Boolean])(ifTrue: => Parsley[B], ifFalse: => Parsley[B]): Parsley[B] = combinator.ifP(mx, ifTrue, ifFalse)
