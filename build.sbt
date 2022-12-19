@@ -1,3 +1,5 @@
+import org.scalajs.linker.interface.ESVersion
+
 val projectName = "parsley-cats"
 val Scala213 = "2.13.10"
 val Scala212 = "2.12.17"
@@ -18,7 +20,7 @@ inThisBuild(List(
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
   scalaVersion := Scala213,
   // CI Configuration
-  tlCiReleaseBranches := Seq(/*"master"*/), // TODO: enable when we are ready for first release!
+  tlCiReleaseBranches := Seq("master"),
   tlSonatypeUseLegacyHost := true, // this needs to be switched off when we migrate parsley to the other server too
   githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"), JavaSpec.temurin("17")),
 ))
@@ -26,6 +28,7 @@ inThisBuild(List(
 lazy val root = tlCrossRootProject.aggregate(`parsley-cats`)
 
 lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .withoutSuffixFor(JVMPlatform)
   .crossType(CrossType.Full)
   .in(file("parsley-cats"))
   .settings(
@@ -34,5 +37,9 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       "org.typelevel" %%% "cats-core" % "2.8.0" % Provided,
       "com.github.j-mie6" %%% "parsley" % "4.0.0" % Provided,
       "org.scalatest" %%% "scalatest" % "3.2.12" % Test,
+      "org.typelevel" %%% "cats-laws" % "2.8.0" % Test,
     )
+  )
+  .jsSettings(
+      Test / scalaJSLinkerConfig := scalaJSLinkerConfig.value.withESFeatures(_.withESVersion(ESVersion.ES2018))
   )

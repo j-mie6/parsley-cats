@@ -5,7 +5,7 @@ package parsley
 
 import cats.{Functor, FunctorFilter}
 
-private [parsley] trait FilterFunctorForParsley extends FunctorFilter[Parsley] { self: Functor[Parsley] =>
+private [parsley] trait FunctorFilterForParsley extends FunctorFilter[Parsley] { self: Functor[Parsley] =>
     override def functor: Functor[Parsley] = this
 
     override def mapFilter[A, B](mx: Parsley[A])(f: A => Option[B]): Parsley[B] = mx.mapFilter(f)

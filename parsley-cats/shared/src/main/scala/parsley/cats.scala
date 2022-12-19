@@ -19,5 +19,5 @@ object catsinstances {
         new MonadForParsley with ApplicativeForParsley
                             with FunctorForParsley
                             with MonoidKForParsley
-                            with FilterFunctorForParsley
+                            with FunctorFilterForParsley
 }
