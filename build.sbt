@@ -14,7 +14,7 @@ inThisBuild(List(
   developers := List(
     tlGitHubDev("j-mie6", "Jamie Willis")
   ),
-  tlSonatypeUseLegacyHost := false,
+  tlSonatypeUseLegacyHost := true,
   //tlFatalWarningsInCi := false,
   versionScheme := Some("early-semver"),
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
