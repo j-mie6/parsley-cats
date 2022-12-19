@@ -14,7 +14,9 @@ addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "1.2.0")
 //addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "1.4.8")
 addSbtPlugin("com.beautiful-scala" % "sbt-scalastyle" % "1.5.1")
 
-//addSbtPlugin("org.typelevel" % "sbt-typelevel" % "0.4.17")
-addSbtPlugin("org.typelevel" % "sbt-typelevel-ci-release" % "0.4.17")
+val sbtTypelevelVersion = "0.4.17"
+
+addSbtPlugin("org.typelevel" % "sbt-typelevel" % sbtTypelevelVersion)
+addSbtPlugin("org.typelevel" % "sbt-typelevel-ci-release" % sbtTypelevelVersion)
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.10.0")
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.4")

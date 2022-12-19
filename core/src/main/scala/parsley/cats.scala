@@ -6,7 +6,7 @@ import lift._
 
 object catsinstances {
     implicit val monadPlusForParsley: Monad[Parsley] with MonoidK[Parsley] with FunctorFilter[Parsley] =
-        new Monad[Parsley] with MonoidK[Parsley] with FunctorFilter[Parsley] {
+        new Monad[Parsley] with MonoidKForParsley with FunctorFilter[Parsley] {
             // Monad methods
             override def flatMap[A, B](mx: Parsley[A])(f: A => Parsley[B]): Parsley[B] = mx.flatMap(f)
 
@@ -19,11 +19,6 @@ object catsinstances {
             override def pure[A](x: A): Parsley[A] = Parsley.pure(x)
             override def unit: Parsley[Unit] = Parsley.unit
             override def point[A](x: A): Parsley[A] = Parsley.pure(x)
-
-            // MonoidK
-            override def combineK[A](p: Parsley[A], q: Parsley[A]): Parsley[A] = p <|> q
-
-            override def empty[A]: Parsley[A] = Parsley.empty
 
             // Functor Overrides
             override def map[A, B](mx: Parsley[A])(f: A => B): Parsley[B] = mx.map(f)
@@ -84,14 +79,9 @@ object catsinstances {
             }
             override def ifElseM[A](branches: (Parsley[Boolean], Parsley[A])*)(els: Parsley[A]): Parsley[A] = {
                 branches.foldRight(els) {
-                    case (cond -> t, e) => combinator.ifP(cond, t, e)
+                    case ((cond, t), e) => combinator.ifP(cond, t, e)
                 }
             }
-
-            // MonoidK Overrides
-            override def sum[A, B](mx: Parsley[A], my: Parsley[B])(implicit F: Functor[Parsley]): Parsley[Either[A,B]] = mx <+> my
-            override def combineAllK[A](ps: IterableOnce[Parsley[A]]): Parsley[A] = combinator.choice(ps.iterator.toSeq: _*)
-            override def combineAllOptionK[A](ps: IterableOnce[Parsley[A]]): Option[Parsley[A]] = ps.iterator.reduceRightOption(_<|>_)
 
             // FunctorFilter Overrides
             override def filter[A](mx: Parsley[A])(f: A => Boolean): Parsley[A] = mx.filter(f)
