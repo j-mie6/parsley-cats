@@ -37,8 +37,8 @@ class CatsSuite extends AnyFlatSpec {
     "FilterFunctor" should "adhere to laws" in {
         applyLaw(filterFunctorLaws.mapFilterComposition[Char, Int, Int](
             item,
-            c => Option.when(c.isDigit)(c.asDigit),
-            x => Option.when(x % 2 == 0)(x/2)))("", "a", "0", "8")
+            c => if (c.isDigit) Some(c.asDigit) else None,
+            x => if (x % 2 == 0) Some(x/2) else None))("", "a", "0", "8")
         applyLaw(filterFunctorLaws.filterConsistentWithMapFilter[Char](
             item,
             _.isDigit))("", "a", "0", "8")
