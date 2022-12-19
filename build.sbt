@@ -14,21 +14,20 @@ inThisBuild(List(
   developers := List(
     tlGitHubDev("j-mie6", "Jamie Willis")
   ),
-  tlSonatypeUseLegacyHost := true,
-  //tlFatalWarningsInCi := false,
   versionScheme := Some("early-semver"),
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
   scalaVersion := Scala213,
   // CI Configuration
-  tlCiReleaseBranches := Seq("master"),
+  tlCiReleaseBranches := Seq(/*"master"*/), // TODO: enable when we are ready for first release!
+  tlSonatypeUseLegacyHost := true, // this needs to be switched off when we migrate parsley to the other server too
   githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"), JavaSpec.temurin("17")),
 ))
 
-lazy val root = tlCrossRootProject.aggregate(core)
+lazy val root = tlCrossRootProject.aggregate(`parsley-cats`)
 
-lazy val core = crossProject(JVMPlatform, JSPlatform, NativePlatform)
-  .crossType(CrossType.Pure)
-  .in(file("core"))
+lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .crossType(CrossType.Full)
+  .in(file("parsley-cats"))
   .settings(
     name := projectName,
     libraryDependencies ++= Seq(
