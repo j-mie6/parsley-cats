@@ -10,11 +10,12 @@ inThisBuild(List(
   organization := "com.github.j-mie6",
   startYear := Some(2022),
   homepage := Some(url("https://github.com/j-mie6/parsley-cats")),
-  licenses := List("BSD 3-Clause" -> url("https://opensource.org/licenses/BSD-3-Clause")),
+  licenses := List("BSD-3-Clause" -> url("https://opensource.org/licenses/BSD-3-Clause")),
   developers := List(
     tlGitHubDev("j-mie6", "Jamie Willis")
   ),
   tlSonatypeUseLegacyHost := false,
+  //tlFatalWarningsInCi := false,
   versionScheme := Some("early-semver"),
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
   scalaVersion := Scala213,

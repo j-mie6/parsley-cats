@@ -16,7 +16,9 @@ addSbtPlugin("com.beautiful-scala" % "sbt-scalastyle" % "1.5.1")
 
 val sbtTypelevelVersion = "0.4.17"
 
-addSbtPlugin("org.typelevel" % "sbt-typelevel" % sbtTypelevelVersion)
+//addSbtPlugin("org.typelevel" % "sbt-typelevel" % sbtTypelevelVersion)
+addSbtPlugin("org.typelevel" % "sbt-typelevel-settings" % sbtTypelevelVersion)
 addSbtPlugin("org.typelevel" % "sbt-typelevel-ci-release" % sbtTypelevelVersion)
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.10.0")
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.4")
+addSbtPlugin("com.timushev.sbt" % "sbt-rewarn" % "0.1.3")
