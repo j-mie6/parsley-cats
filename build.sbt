@@ -3,6 +3,8 @@ val Scala213 = "2.13.10"
 val Scala212 = "2.12.15"
 val Scala3 = "3.1.2"
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 inThisBuild(List(
   tlBaseVersion := "0.1",
   organization := "com.github.j-mie6",
@@ -18,7 +20,7 @@ inThisBuild(List(
   scalaVersion := Scala213,
   // CI Configuration
   tlCiReleaseBranches := Seq("master"),
-  githubWorkflowJavaVersions := Seq(JavaSpec.temurin("1.8"), JavaSpec.temurin("1.11"), JavaSpec.temurin("1.17")),
+  githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"), JavaSpec.temurin("17")),
 ))
 
 lazy val root = tlCrossRootProject.aggregate(core)

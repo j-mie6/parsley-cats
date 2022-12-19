@@ -29,17 +29,17 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [2.13.10, 2.12.15, 3.1.2]
-        java: [temurin@1.8, temurin@1.11, temurin@1.17]
+        java: [temurin@8, temurin@11, temurin@17]
         project: [rootJS, rootJVM, rootNative]
         exclude:
           - project: rootJS
-            java: temurin@1.11
+            java: temurin@11
           - project: rootJS
-            java: temurin@1.17
+            java: temurin@17
           - project: rootNative
-            java: temurin@1.11
+            java: temurin@11
           - project: rootNative
-            java: temurin@1.17
+            java: temurin@17
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -47,53 +47,53 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Java (temurin@1.8)
-        id: download-java-temurin-1.8
-        if: matrix.java == 'temurin@1.8'
+      - name: Download Java (temurin@8)
+        id: download-java-temurin-8
+        if: matrix.java == 'temurin@8'
         uses: typelevel/download-java@v1
         with:
           distribution: temurin
-          java-version: 1.8
+          java-version: 8
 
-      - name: Setup Java (temurin@1.8)
-        if: matrix.java == 'temurin@1.8'
+      - name: Setup Java (temurin@8)
+        if: matrix.java == 'temurin@8'
         uses: actions/setup-java@v2
         with:
           distribution: jdkfile
-          java-version: 1.8
-          jdkFile: ${{ steps.download-java-temurin-1.8.outputs.jdkFile }}
+          java-version: 8
+          jdkFile: ${{ steps.download-java-temurin-8.outputs.jdkFile }}
 
-      - name: Download Java (temurin@1.11)
-        id: download-java-temurin-1.11
-        if: matrix.java == 'temurin@1.11'
+      - name: Download Java (temurin@11)
+        id: download-java-temurin-11
+        if: matrix.java == 'temurin@11'
         uses: typelevel/download-java@v1
         with:
           distribution: temurin
-          java-version: 1.11
+          java-version: 11
 
-      - name: Setup Java (temurin@1.11)
-        if: matrix.java == 'temurin@1.11'
+      - name: Setup Java (temurin@11)
+        if: matrix.java == 'temurin@11'
         uses: actions/setup-java@v2
         with:
           distribution: jdkfile
-          java-version: 1.11
-          jdkFile: ${{ steps.download-java-temurin-1.11.outputs.jdkFile }}
+          java-version: 11
+          jdkFile: ${{ steps.download-java-temurin-11.outputs.jdkFile }}
 
-      - name: Download Java (temurin@1.17)
-        id: download-java-temurin-1.17
-        if: matrix.java == 'temurin@1.17'
+      - name: Download Java (temurin@17)
+        id: download-java-temurin-17
+        if: matrix.java == 'temurin@17'
         uses: typelevel/download-java@v1
         with:
           distribution: temurin
-          java-version: 1.17
+          java-version: 17
 
-      - name: Setup Java (temurin@1.17)
-        if: matrix.java == 'temurin@1.17'
+      - name: Setup Java (temurin@17)
+        if: matrix.java == 'temurin@17'
         uses: actions/setup-java@v2
         with:
           distribution: jdkfile
-          java-version: 1.17
-          jdkFile: ${{ steps.download-java-temurin-1.17.outputs.jdkFile }}
+          java-version: 17
+          jdkFile: ${{ steps.download-java-temurin-17.outputs.jdkFile }}
 
       - name: Cache sbt
         uses: actions/cache@v2
@@ -122,11 +122,11 @@ jobs:
         run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' test
 
       - name: Check binary compatibility
-        if: matrix.java == 'temurin@1.8'
+        if: matrix.java == 'temurin@8'
         run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' mimaReportBinaryIssues
 
       - name: Generate API documentation
-        if: matrix.java == 'temurin@1.8'
+        if: matrix.java == 'temurin@8'
         run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' doc
 
       - name: Make target directories
@@ -152,7 +152,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [2.13.10]
-        java: [temurin@1.8]
+        java: [temurin@8]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -160,53 +160,53 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Java (temurin@1.8)
-        id: download-java-temurin-1.8
-        if: matrix.java == 'temurin@1.8'
+      - name: Download Java (temurin@8)
+        id: download-java-temurin-8
+        if: matrix.java == 'temurin@8'
         uses: typelevel/download-java@v1
         with:
           distribution: temurin
-          java-version: 1.8
+          java-version: 8
 
-      - name: Setup Java (temurin@1.8)
-        if: matrix.java == 'temurin@1.8'
+      - name: Setup Java (temurin@8)
+        if: matrix.java == 'temurin@8'
         uses: actions/setup-java@v2
         with:
           distribution: jdkfile
-          java-version: 1.8
-          jdkFile: ${{ steps.download-java-temurin-1.8.outputs.jdkFile }}
+          java-version: 8
+          jdkFile: ${{ steps.download-java-temurin-8.outputs.jdkFile }}
 
-      - name: Download Java (temurin@1.11)
-        id: download-java-temurin-1.11
-        if: matrix.java == 'temurin@1.11'
+      - name: Download Java (temurin@11)
+        id: download-java-temurin-11
+        if: matrix.java == 'temurin@11'
         uses: typelevel/download-java@v1
         with:
           distribution: temurin
-          java-version: 1.11
+          java-version: 11
 
-      - name: Setup Java (temurin@1.11)
-        if: matrix.java == 'temurin@1.11'
+      - name: Setup Java (temurin@11)
+        if: matrix.java == 'temurin@11'
         uses: actions/setup-java@v2
         with:
           distribution: jdkfile
-          java-version: 1.11
-          jdkFile: ${{ steps.download-java-temurin-1.11.outputs.jdkFile }}
+          java-version: 11
+          jdkFile: ${{ steps.download-java-temurin-11.outputs.jdkFile }}
 
-      - name: Download Java (temurin@1.17)
-        id: download-java-temurin-1.17
-        if: matrix.java == 'temurin@1.17'
+      - name: Download Java (temurin@17)
+        id: download-java-temurin-17
+        if: matrix.java == 'temurin@17'
         uses: typelevel/download-java@v1
         with:
           distribution: temurin
-          java-version: 1.17
+          java-version: 17
 
-      - name: Setup Java (temurin@1.17)
-        if: matrix.java == 'temurin@1.17'
+      - name: Setup Java (temurin@17)
+        if: matrix.java == 'temurin@17'
         uses: actions/setup-java@v2
         with:
           distribution: jdkfile
-          java-version: 1.17
-          jdkFile: ${{ steps.download-java-temurin-1.17.outputs.jdkFile }}
+          java-version: 17
+          jdkFile: ${{ steps.download-java-temurin-17.outputs.jdkFile }}
 
       - name: Cache sbt
         uses: actions/cache@v2
