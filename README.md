@@ -28,6 +28,13 @@ Documentation can be found [**here**][Link-Scaladoc]
 [Parsley](https://github.com/j-mie6/parsley) is a fast, modern, parser combinator library based loosely on Haskell's `parsec` and
 `megaparsec`. For examples, see its repo and wiki!
 
+## Known Incompatiblities
+The following are known conflicts between the syntactic extensions of `cats` and the base combinators on `parsley`. This only needs to be considered when writing _concrete_ values of type `Parsley[A]`: combinators that rely on generic instances over a type `F` will use the `cats` version of the conflicting combinators.
+
+* The `SemigroupK` syntax for `combine` of `<+>` is incompatible with `parsley`, which defines
+  `<+>` to be a combine combinator returning `Parsley[Either[A, B]]`: the `cats` combinator `<+>` is known in `parsley` as `<|>`, `orElse`, or `|`.
+
+
 <!-- examples should go here, but <+> conflicts between parsley and cats,
      which makes examples difficult... -->
 
