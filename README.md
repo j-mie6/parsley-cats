@@ -8,7 +8,7 @@ may be generally recursive, just slow).
 
 ## How do I use it? [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats) [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=sjs1)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats) [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=native0.4)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats)
 
-Parsley is distributed on Maven Central, and can be added to your project via:
+Parsley cats is distributed on Maven Central, and can be added to your project via:
 
 ```scala
 libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "0.1.0"
@@ -17,9 +17,19 @@ libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "0.1.0"
 it requires `parsley` and `cats-core` to also be dependencies of your project. The current version
 matrix for `parsley-cats`:
 
-* `0.1.0` supports `4 <= parsley < 5` , `2.8 <= cats-core < 3`
+| `parsley-cats` version | `parsley` version | `cats-core` version |
+| :--------------------: | :---------------: | :-----------------: |
+| `0.1.0`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 
 Documentation can be found [**here**][Link-Scaladoc]
+
+## What is `parsley`?
+
+[Parsley](https://github.com/j-mie6/parsley) is a fast, modern, parser combinator library based loosely on Haskell's `parsec` and
+`megaparsec`. For examples, see its repo and wiki!
+
+<!-- examples should go here, but <+> conflicts between parsley and cats,
+     which makes examples difficult... -->
 
 <!-- Badges and Links -->
 
