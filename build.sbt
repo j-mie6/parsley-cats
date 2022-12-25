@@ -39,6 +39,7 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       "org.scalatest" %%% "scalatest" % "3.2.12" % Test,
       "org.typelevel" %%% "cats-laws" % "2.8.0" % Test,
     ),
+    // I think these are needed until we have moved to 1.0.0? the typelevel plugins don't seem to pick it up?
     mimaPreviousArtifacts := Set(
       "com.github.j-mie6" %% "parsley-cats" % "0.1.0",
     ),
