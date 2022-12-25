@@ -2,16 +2,17 @@
 
 
 ## What is `parsley-cats`?
-The `parsley-cats` library exposes `cats` instances for `MonoidK[Parsley]`, `Monad[Parsley]`, and `FunctorFilter[Parsley]`.
+The `parsley-cats` library exposes `cats` instances for `MonoidK[Parsley]`, `Monad[Parsley]`, and `FunctorFilter[Parsley]` as well as `Defer[Parsley]`.
 Care should still be taken to not define truly recursive parsers using the `cats` API (although monadic parser with `flatMap`
-may be generally recursive, just slow).
+may be generally recursive, just slow). In particular, make use of `Defer[Parsley].fix`
+to handle recursion, or plain `lazy val` based construction (as in regular `parsley` use).
 
 ## How do I use it? [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats) [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=sjs1)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats) [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=native0.4)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats)
 
 Parsley cats is distributed on Maven Central, and can be added to your project via:
 
 ```scala
-libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "0.1.0"
+libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "0.2.0"
 ```
 
 it requires `parsley` and `cats-core` to also be dependencies of your project. The current version
@@ -19,7 +20,8 @@ matrix for `parsley-cats`:
 
 | `parsley-cats` version | `parsley` version | `cats-core` version |
 | :--------------------: | :---------------: | :-----------------: |
-| `0.1.0`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
+| `0.1.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
+| `0.2.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 
 Documentation can be found [**here**][Link-Scaladoc]
 

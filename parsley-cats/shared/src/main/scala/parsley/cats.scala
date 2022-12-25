@@ -3,7 +3,7 @@
  */
 package parsley
 
-import cats.{Monad, MonoidK, FunctorFilter}
+import cats.{Monad, MonoidK, FunctorFilter, Defer}
 
 /** Contains instances for `cats` typeclasses.
   *
@@ -20,4 +20,10 @@ object catsinstances {
                             with FunctorForParsley
                             with MonoidKForParsley
                             with FunctorFilterForParsley
+
+    /** Instance for `cats` `Defer` typeclass, which allows for recursive parser generation.
+      *
+      * @since 0.2.0
+      */
+    implicit val deferForParsley: Defer[Parsley] = new DeferForParsley
 }
