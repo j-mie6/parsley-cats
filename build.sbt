@@ -8,7 +8,7 @@ val Scala3 = "3.2.1"
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(List(
-  tlBaseVersion := "0.1",
+  tlBaseVersion := "0.2",
   organization := "com.github.j-mie6",
   startYear := Some(2022),
   homepage := Some(url("https://github.com/j-mie6/parsley-cats")),
@@ -38,7 +38,10 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
       "com.github.j-mie6" %%% "parsley" % "4.0.0" % Provided,
       "org.scalatest" %%% "scalatest" % "3.2.12" % Test,
       "org.typelevel" %%% "cats-laws" % "2.8.0" % Test,
-    )
+    ),
+    mimaPreviousArtifacts := Set(
+      "com.github.j-mie6" %% "parsley-cats" % "0.1.0",
+    ),
   )
   .jsSettings(
       Test / scalaJSLinkerConfig := scalaJSLinkerConfig.value.withESFeatures(_.withESVersion(ESVersion.ES2018))

@@ -4,6 +4,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers._
 import org.scalactic.source.Position
 
+import parsley.Parsley.pure
 import parsley.character.{item, digit, char}
 import parsley.catsinstances._
 
@@ -47,5 +48,12 @@ class CatsSuite extends AnyFlatSpec {
     "MonoidK" should "adhere to laws" in {
         applyLaw(monoidKLaws.monoidKLeftIdentity(item), monoidKLaws.monoidKRightIdentity(item))("", "a", "b")
         applyLaw(monoidKLaws.combineAllK(Vector(char('a'), char('b'), char('c'))))("", "a", "b", "c")
+    }
+
+    "Defer" should "allow for the construction of recursive parsers" in {
+        val manya = deferForParsley.fix[List[Char]] { self =>
+            char('a') <::> self <|> pure(Nil)
+        }
+        manya.parse("aaaaaaaaaaaab") shouldBe Success(List.fill(12)('a'))
     }
 }
