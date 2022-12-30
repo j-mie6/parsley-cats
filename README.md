@@ -11,7 +11,7 @@ to handle recursion, or plain `lazy val` based construction (as in regular `pars
 Parsley cats is distributed on Maven Central, and can be added to your project via:
 
 ```scala
-libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "0.2.0"
+libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "1.0.0"
 ```
 
 it requires `parsley` and `cats-core` to also be dependencies of your project. The current version
@@ -21,6 +21,7 @@ matrix for `parsley-cats`:
 | :--------------------: | :---------------: | :-----------------: |
 | `0.1.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 | `0.2.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
+| `1.0.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 
 Documentation can be found [**here**][Link-Scaladoc]
 
