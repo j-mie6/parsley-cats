@@ -3,8 +3,8 @@
  */
 package parsley
 
-import cats.{Monad, Alternative}
-import registers._
+import cats.{Alternative, Monad}
+import registers.{RegisterMaker, RegisterMethods}
 
 private [parsley] trait MonadForParsley extends Monad[Parsley] {
     override def flatMap[A, B](mx: Parsley[A])(f: A => Parsley[B]): Parsley[B] = mx.flatMap(f)

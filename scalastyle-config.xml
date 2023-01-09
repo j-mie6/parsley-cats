@@ -72,7 +72,7 @@
     <check enabled="true"  class="org.scalastyle.scalariform.EqualsHashCodeChecker" level="warning"/>
     <check enabled="true"  class="org.scalastyle.scalariform.FieldNamesChecker" level="warning">
         <parameters>
-            <parameter name="regex">^_?[a-z][A-Za-z0-9]*_?$</parameter>
+            <parameter name="regex">^([A-Z]|_?[a-z][A-Za-z0-9]*_?)$</parameter>
             <!-- In principle, we want this, but the parsers in character and Parsley are lowercase leading... -->
             <!--<parameter name="objectFieldRegex">^[A-Z][A-Za-z0-9]*$</parameter>-->
             <parameter name="objectFieldRegex">^[a-zA-Z][A-Za-z0-9]*$</parameter>
@@ -98,9 +98,10 @@
     <check enabled="true"  class="org.scalastyle.scalariform.ImportGroupingChecker" level="warning"/>
     <check enabled="true"  class="org.scalastyle.scalariform.ImportOrderChecker" level="warning">
         <parameters>
-            <parameter name="groups">java,scala,parsley,parsley.internal,others</parameter>
+            <parameter name="groups">java,scala,cats,parsley,parsley.internal,others</parameter>
             <parameter name="group.java">javax?\..+</parameter>
             <parameter name="group.scala">scala\..+</parameter>
+            <parameter name="group.cats">cats\..+</parameter>
             <parameter name="group.parsley">parsley\.(?!internal).+</parameter>
             <parameter name="group.parsley.internal">parsley\.internal\..+</parameter>
             <parameter name="group.others">.+</parameter>
@@ -114,7 +115,7 @@
     </check>
     <check enabled="true"  class="org.scalastyle.scalariform.MethodArgumentNamesChecker" level="warning">
         <parameters>
-            <parameter name="regex">^_?[a-z][A-Za-z0-9]*_?$</parameter>
+            <parameter name="regex">^([A-Z]|_?[a-z][A-Za-z0-9]*_?)$</parameter>
             <parameter name="ignoreRegex">^$</parameter>
         </parameters>
     </check>
