@@ -3,7 +3,7 @@
  */
 package parsley
 
-import cats.{Monad, MonoidK, FunctorFilter, Defer}
+import cats.{Defer, FunctorFilter, Monad, MonoidK}
 
 /** Contains instances for `cats` typeclasses.
   *

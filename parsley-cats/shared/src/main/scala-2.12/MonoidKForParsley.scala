@@ -3,7 +3,7 @@
  */
 package parsley
 
-import cats.{MonoidK, Functor}
+import cats.{Functor, MonoidK}
 
 private [parsley] trait MonoidKForParsley extends MonoidK[Parsley] {
     // MonoidK

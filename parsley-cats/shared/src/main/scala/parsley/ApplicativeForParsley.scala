@@ -4,6 +4,7 @@
 package parsley
 
 import cats.Applicative
+
 import lift._
 
 private [parsley] trait ApplicativeForParsley extends Applicative[Parsley] {
