@@ -20,7 +20,7 @@ inThisBuild(List(
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
   scalaVersion := Scala213,
   // CI Configuration
-  tlCiReleaseBranches := Seq("master", "new-host"),
+  tlCiReleaseBranches := Seq("master"),
   tlSonatypeUseLegacyHost := false, // this needs to be switched off when we migrate parsley to the other server too
   githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"), JavaSpec.temurin("17")),
 ))
