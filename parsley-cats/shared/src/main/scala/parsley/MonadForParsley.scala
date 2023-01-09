@@ -4,7 +4,6 @@
 package parsley
 
 import cats.{Alternative, Monad}
-
 import registers.{RegisterMaker, RegisterMethods}
 
 private [parsley] trait MonadForParsley extends Monad[Parsley] {
