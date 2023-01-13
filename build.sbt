@@ -8,7 +8,7 @@ val Scala3 = "3.2.1"
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(List(
-  tlBaseVersion := "1.0",
+  tlBaseVersion := "1.1",
   organization := "com.github.j-mie6",
   startYear := Some(2022),
   homepage := Some(url("https://github.com/j-mie6/parsley-cats")),
@@ -34,8 +34,8 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(
     name := projectName,
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "cats-core" % "2.8.0" % Provided,
-      "com.github.j-mie6" %%% "parsley" % "4.0.0" % Provided,
+      "org.typelevel" %%% "cats-core" % "2.8.0",
+      "com.github.j-mie6" %%% "parsley" % "4.0.0",
       "org.scalatest" %%% "scalatest" % "3.2.12" % Test,
       "org.typelevel" %%% "cats-laws" % "2.8.0" % Test,
     ),
