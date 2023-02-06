@@ -4,7 +4,6 @@
 package parsley.cats
 
 import parsley.Parsley
-import parsley.combinator
 import parsley.registers.{RegisterMaker, RegisterMethods}
 
 import cats.{Alternative, Monad}
@@ -18,11 +17,11 @@ private [parsley] trait MonadForParsley extends Monad[Parsley] {
     }
 
     // Monad Overrides
-    override def ifM[B](mx: Parsley[Boolean])(ifTrue: => Parsley[B], ifFalse: => Parsley[B]): Parsley[B] = combinator.ifP(mx, ifTrue, ifFalse)
+    override def ifM[B](mx: Parsley[Boolean])(ifTrue: => Parsley[B], ifFalse: => Parsley[B]): Parsley[B] = parsley.combinator.ifP(mx, ifTrue, ifFalse)
     override def whileM_[A](p: Parsley[Boolean])(body: =>Parsley[A]): Parsley[Unit] = {
-        combinator.when(p, combinator.whileP(body ~> p))
+        parsley.combinator.when(p, parsley.combinator.whileP(body ~> p))
     }
-    override def untilM_[A](body: Parsley[A])(p: => Parsley[Boolean]): Parsley[Unit] = combinator.whileP(body *> p.map(!_))
+    override def untilM_[A](body: Parsley[A])(p: => Parsley[Boolean]): Parsley[Unit] = parsley.combinator.whileP(body *> p.map(!_))
 
     override def whileM[G[_]: Alternative, A](p: Parsley[Boolean])(body: => Parsley[A]): Parsley[G[A]] = {
         val G = implicitly[Alternative[G]]
@@ -39,25 +38,25 @@ private [parsley] trait MonadForParsley extends Monad[Parsley] {
     }
 
     override def untilDefinedM[A](mox: Parsley[Option[A]]): Parsley[A] = {
-        lazy val loop: Parsley[A] = combinator.decide(mox, loop)
+        lazy val loop: Parsley[A] = parsley.combinator.decide(mox, loop)
         loop
     }
 
     override def iterateUntil[A](mx: Parsley[A])(p: A => Boolean): Parsley[A] = {
         lazy val loop: Parsley[A] = mx.persist { mx =>
-            combinator.ifP(mx.map(p), mx, loop)
+            parsley.combinator.ifP(mx.map(p), mx, loop)
         }
         loop
     }
     override def iterateWhile[A](mx: Parsley[A])(p: A => Boolean): Parsley[A] = {
         lazy val loop: Parsley[A] = mx.persist { mx =>
-            combinator.ifP(mx.map(p), loop, mx)
+            parsley.combinator.ifP(mx.map(p), loop, mx)
         }
         loop
     }
     override def ifElseM[A](branches: (Parsley[Boolean], Parsley[A])*)(els: Parsley[A]): Parsley[A] = {
         branches.foldRight(els) {
-            case ((cond, t), e) => combinator.ifP(cond, t, e)
+            case ((cond, t), e) => parsley.combinator.ifP(cond, t, e)
         }
     }
 }

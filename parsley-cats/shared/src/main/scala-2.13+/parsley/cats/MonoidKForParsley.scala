@@ -4,7 +4,6 @@
 package parsley.cats
 
 import parsley.Parsley
-import parsley.combinator
 
 import cats.{Functor, MonoidK}
 
@@ -15,6 +14,6 @@ private [parsley] trait MonoidKForParsley extends MonoidK[Parsley] {
 
     // MonoidK Overrides
     override def sum[A, B](mx: Parsley[A], my: Parsley[B])(implicit F: Functor[Parsley]): Parsley[Either[A,B]] = mx <+> my
-    override def combineAllK[A](ps: IterableOnce[Parsley[A]]): Parsley[A] = combinator.choice(ps.iterator.toSeq: _*)
+    override def combineAllK[A](ps: IterableOnce[Parsley[A]]): Parsley[A] = parsley.combinator.choice(ps.iterator.toSeq: _*)
     override def combineAllOptionK[A](ps: IterableOnce[Parsley[A]]): Option[Parsley[A]] = ps.iterator.reduceRightOption(_<|>_)
 }
