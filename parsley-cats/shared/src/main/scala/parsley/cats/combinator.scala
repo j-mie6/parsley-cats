@@ -126,7 +126,10 @@ object combinator {
       * @return a parser that parses `p` delimited by `sep`, returning the non-empty list of `p`'s results.
       * @since 1.2.0
       */
-    def sepEndBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = parsley.combinator.sepEndBy1(p, sep).map(NonEmptyList.fromList(_).get)
+    def sepEndBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = parsley.combinator.sepEndBy1(p, sep).map { xxs =>
+        val (x::xs) = xxs
+        NonEmptyList(x, xs)
+    }
 
     /** This combinator parses '''one''' or more occurrences of `p`, separated and ended by `sep`.
       *
