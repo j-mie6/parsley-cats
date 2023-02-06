@@ -1,12 +1,13 @@
-package parsley
+package parsley.cats
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers._
 import org.scalactic.source.Position
 
-import parsley.Parsley.pure
+import parsley.Parsley, Parsley.pure
+import parsley.Success
 import parsley.character.{item, digit, char}
-import parsley.catsinstances._
+import parsley.cats.instances._
 
 import cats.laws.{MonadLaws, MonoidKLaws, FunctorFilterLaws}
 import cats.kernel.laws.IsEq

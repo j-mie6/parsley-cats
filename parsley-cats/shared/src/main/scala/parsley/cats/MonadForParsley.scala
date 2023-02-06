@@ -1,10 +1,13 @@
 /* SPDX-FileCopyrightText: © 2022 Parsley Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package parsley
+package parsley.cats
+
+import parsley.Parsley
+import parsley.combinator
+import parsley.registers.{RegisterMaker, RegisterMethods}
 
 import cats.{Alternative, Monad}
-import registers.{RegisterMaker, RegisterMethods}
 
 private [parsley] trait MonadForParsley extends Monad[Parsley] {
     override def flatMap[A, B](mx: Parsley[A])(f: A => Parsley[B]): Parsley[B] = mx.flatMap(f)

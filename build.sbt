@@ -1,4 +1,5 @@
 import org.scalajs.linker.interface.ESVersion
+import com.typesafe.tools.mima.core._
 
 val projectName = "parsley-cats"
 val Scala213 = "2.13.10"
@@ -19,9 +20,18 @@ inThisBuild(List(
   versionScheme := Some("early-semver"),
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
   scalaVersion := Scala213,
+  mimaBinaryIssueFilters ++= Seq(
+    // Until 2.0 (these are all misreported package private members)
+    ProblemFilters.exclude[MissingClassProblem]("parsley.ApplicativeForParsley"),
+    ProblemFilters.exclude[MissingClassProblem]("parsley.DeferForParsley"),
+    ProblemFilters.exclude[MissingClassProblem]("parsley.FunctorFilterForParsley"),
+    ProblemFilters.exclude[MissingClassProblem]("parsley.FunctorForParsley"),
+    ProblemFilters.exclude[MissingClassProblem]("parsley.MonadForParsley"),
+    ProblemFilters.exclude[MissingClassProblem]("parsley.MonoidKForParsley"),
+  ),
   // CI Configuration
   tlCiReleaseBranches := Seq("master"),
-  tlSonatypeUseLegacyHost := false, // this needs to be switched off when we migrate parsley to the other server too
+  tlSonatypeUseLegacyHost := false,
   githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"), JavaSpec.temurin("17")),
 ))
 
