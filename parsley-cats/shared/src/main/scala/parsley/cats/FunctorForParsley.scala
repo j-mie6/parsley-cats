@@ -1,7 +1,9 @@
 /* SPDX-FileCopyrightText: © 2022 Parsley Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package parsley
+package parsley.cats
+
+import parsley.Parsley
 
 import cats.Functor
 

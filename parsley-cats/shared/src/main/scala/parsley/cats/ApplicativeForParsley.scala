@@ -1,11 +1,13 @@
 /* SPDX-FileCopyrightText: © 2022 Parsley Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package parsley
+package parsley.cats
+
+import parsley.Parsley
+import parsley.combinator
+import parsley.lift._
 
 import cats.Applicative
-
-import lift._
 
 private [parsley] trait ApplicativeForParsley extends Applicative[Parsley] {
     override def pure[A](x: A): Parsley[A] = Parsley.pure(x)
