@@ -3,9 +3,9 @@
  */
 package parsley.cats
 
-import cats.{Functor, FunctorFilter}
-
 import parsley.Parsley
+
+import cats.{Functor, FunctorFilter}
 
 private [parsley] trait FunctorFilterForParsley extends FunctorFilter[Parsley] { self: Functor[Parsley] =>
     override def functor: Functor[Parsley] = this

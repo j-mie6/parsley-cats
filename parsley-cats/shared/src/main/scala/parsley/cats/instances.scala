@@ -1,8 +1,11 @@
+/* SPDX-FileCopyrightText: © 2023 Parsley Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 package parsley.cats
 
-import cats.{Defer, FunctorFilter, Monad, MonoidK}
-
 import parsley.Parsley
+
+import cats.{Defer, FunctorFilter, Monad, MonoidK}
 
 /** Contains instances for `cats` typeclasses.
   *
