@@ -6,7 +6,10 @@ import parsley.lift.lift2
 
 import cats.data.NonEmptyList
 
-/**
+/** This module contains pre-made combinators that are very useful for a variety of purposes, specialised to `cats`.
+  *
+  * In particular, it contains functionality found normally in `parsley.combinator`, but returning the `cats` `NonEmptyList`
+  * instead of a regular Scala `List`.
   *
   * @since 1.2.0
   */
