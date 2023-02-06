@@ -3,9 +3,9 @@
  */
 package parsley.cats
 
-import parsley.Parsley, Parsley.LazyParsley
-
 import cats.Defer
+
+import parsley.Parsley, Parsley.LazyParsley
 
 private [parsley] class DeferForParsley extends Defer[Parsley] {
     def defer[A](p: =>parsley.Parsley[A]): parsley.Parsley[A] = ~p

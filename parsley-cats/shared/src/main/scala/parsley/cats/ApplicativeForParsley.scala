@@ -3,11 +3,10 @@
  */
 package parsley.cats
 
-import parsley.Parsley
-import parsley.combinator
-import parsley.lift._
-
 import cats.Applicative
+
+import parsley.Parsley
+import parsley.lift._
 
 private [parsley] trait ApplicativeForParsley extends Applicative[Parsley] {
     override def pure[A](x: A): Parsley[A] = Parsley.pure(x)

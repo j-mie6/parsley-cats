@@ -1,8 +1,8 @@
 package parsley.cats
 
-import parsley.Parsley
-
 import cats.{Defer, FunctorFilter, Monad, MonoidK}
+
+import parsley.Parsley
 
 /** Contains instances for `cats` typeclasses.
   *

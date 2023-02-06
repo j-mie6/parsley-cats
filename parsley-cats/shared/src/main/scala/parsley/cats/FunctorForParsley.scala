@@ -3,9 +3,9 @@
  */
 package parsley.cats
 
-import parsley.Parsley
-
 import cats.Functor
+
+import parsley.Parsley
 
 private [parsley] trait FunctorForParsley extends Functor[Parsley] {
     override def map[A, B](mx: Parsley[A])(f: A => B): Parsley[B] = mx.map(f)

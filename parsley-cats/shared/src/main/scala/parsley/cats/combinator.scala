@@ -1,10 +1,10 @@
 package parsley.cats
 
+import cats.data.NonEmptyList
+
 import parsley.Parsley, Parsley.notFollowedBy
 import parsley.combinator.{many, manyUntil}
 import parsley.lift.lift2
-
-import cats.data.NonEmptyList
 
 /** This module contains pre-made combinators that are very useful for a variety of purposes, specialised to `cats`.
   *
