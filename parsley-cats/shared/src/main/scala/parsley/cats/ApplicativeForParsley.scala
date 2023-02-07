@@ -3,11 +3,10 @@
  */
 package parsley.cats
 
-import parsley.Parsley
-import parsley.combinator
-import parsley.lift._
-
 import cats.Applicative
+
+import parsley.Parsley
+import parsley.lift._
 
 private [parsley] trait ApplicativeForParsley extends Applicative[Parsley] {
     override def pure[A](x: A): Parsley[A] = Parsley.pure(x)
@@ -20,8 +19,8 @@ private [parsley] trait ApplicativeForParsley extends Applicative[Parsley] {
     override def product[A, B](mx: Parsley[A], my: Parsley[B]): Parsley[(A, B)] = mx <~> my
     override def ap[A, B](mf: Parsley[A => B])(mx: Parsley[A]): Parsley[B] = mf <*> mx
 
-    override def replicateA[A](n: Int, mx: Parsley[A]): Parsley[List[A]] = combinator.exactly(n, mx)
-    override def replicateA_[A](n: Int, mx: Parsley[A]): Parsley[Unit] = combinator.skip(mx, (1 until n).map(_ => mx): _*)
+    override def replicateA[A](n: Int, mx: Parsley[A]): Parsley[List[A]] = parsley.combinator.exactly(n, mx)
+    override def replicateA_[A](n: Int, mx: Parsley[A]): Parsley[Unit] = parsley.combinator.skip(mx, (1 until n).map(_ => mx): _*)
 
     // Maps and Tuples
     override def map2[A, B, Z](mx: Parsley[A], my: Parsley[B])(f: (A, B) => Z): Parsley[Z] = lift2(f, mx, my)
