@@ -28,7 +28,7 @@ object combinator {
       *
       * @example {{{
       * scala> import parsley.character.string
-      * scala> import parsley.combinator.some
+      * scala> import parsley.cats.combinator.some
       * scala> val p = some(string("ab"))
       * scala> p.parse("")
       * val res0 = Failure(..)
@@ -55,7 +55,7 @@ object combinator {
       *
       * @example This can be useful for scanning comments: {{{
       * scala> import parsley.character.{string, item, endOfLine}
-      * scala> import parsley.combinator.many
+      * scala> import parsley.cats.combinator.someUntil
       * scala> val comment = string("//") *> someUntil(item, endOfLine)
       * scala> p.parse("//hello world")
       * val res0 = Failure(..)
