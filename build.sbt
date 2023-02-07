@@ -9,7 +9,7 @@ val Scala3 = "3.2.1"
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(List(
-  tlBaseVersion := "1.1",
+  tlBaseVersion := "1.2",
   organization := "com.github.j-mie6",
   startYear := Some(2022),
   homepage := Some(url("https://github.com/j-mie6/parsley-cats")),
