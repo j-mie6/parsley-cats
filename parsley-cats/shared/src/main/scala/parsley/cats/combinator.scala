@@ -17,7 +17,7 @@ import parsley.lift.lift2
   * @since 1.2.0
   */
 object combinator {
-    private def nonEmptyList[A](p: Parsley[A], ps: =>Parsley[List[A]]) = lift2[A, List[A], NonEmptyList[A]](NonEmptyList(_, _), p, ps)
+    private [cats] def nonEmptyList[A](p: Parsley[A], ps: =>Parsley[List[A]]) = lift2[A, List[A], NonEmptyList[A]](NonEmptyList(_, _), p, ps)
 
     /** This combinator repeatedly parses a given parser '''one''' or more times, collecting the results into a list.
       *
