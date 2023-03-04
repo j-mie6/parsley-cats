@@ -5,7 +5,7 @@ libraryDependencySchemes ++= Seq(
   "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always,
 )
 
-addSbtPlugin("org.typelevel" % "sbt-typelevel" % sbtTypelevelVersion)
+//addSbtPlugin("org.typelevel" % "sbt-typelevel" % sbtTypelevelVersion) // disabled because I don't want headers and formatting checks
 addSbtPlugin("org.typelevel" % "sbt-typelevel-settings" % sbtTypelevelVersion)
 addSbtPlugin("org.typelevel" % "sbt-typelevel-ci-release" % sbtTypelevelVersion)
 
