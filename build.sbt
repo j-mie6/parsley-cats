@@ -1,3 +1,4 @@
+import org.scalajs.linker.interface.ESVersion
 import com.typesafe.tools.mima.core._
 
 val projectName = "parsley-cats"
@@ -71,5 +72,6 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     },
   )
   .jsSettings(
-      // Test / scalaJSLinkerConfig := scalaJSLinkerConfig.value.withESFeatures(_.withESVersion(ESVersion.ES2018))
+    // this is required until we bump to a higher parsley major/minor (the regex is still in 4.0.0)
+    Test / scalaJSLinkerConfig := scalaJSLinkerConfig.value.withESFeatures(_.withESVersion(ESVersion.ES2018))
   )
