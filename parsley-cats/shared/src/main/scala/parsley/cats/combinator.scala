@@ -11,8 +11,6 @@ import parsley.Parsley, Parsley.notFollowedBy
 import parsley.combinator.{many, manyUntil}
 import parsley.lift.lift2
 
-import org.typelevel.scalaccompat.annotation._
-
 /** This module contains pre-made combinators that are very useful for a variety of purposes, specialised to `cats`.
   *
   * In particular, it contains functionality found normally in `parsley.combinator`, but returning the `cats` `NonEmptyList`
@@ -131,7 +129,7 @@ object combinator {
       * @since 1.2.0
       */
     def sepEndBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = parsley.combinator.sepEndBy1(p, sep).map { xxs =>
-        val (x::xs) = xxs: @nowarn
+        val (x::xs) = xxs: @unchecked
         NonEmptyList(x, xs)
     }
 

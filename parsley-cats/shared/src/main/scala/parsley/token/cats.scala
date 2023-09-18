@@ -6,15 +6,15 @@
 package parsley.token
 
 import parsley.Parsley
+import parsley.cats.combinator.sepBy1
+
 import _root_.cats.data.NonEmptyList
-import parsley.cats.combinator._
 
 object cats {
     implicit class LexerNonEmpty(val lexer: Lexer) {
         object cats {
             object lexeme {
                 object separators {
-                    import lexer.lexeme.symbol
                     /**  This combinator parses '''one''' or more occurrences of `p`, separated by semi-colons.
                      *
                      * First parses a `p`. Then parses a semi-colon followed by `p` until there are no more  semi-colons.
@@ -39,7 +39,7 @@ object cats {
                      * @return a parser that parses `p` delimited by semi-colons, returning the list of `p`'s results.
                      * @since 1.3.0
                      */
-                    def semiSep1[A](p: Parsley[A]): Parsley[NonEmptyList[A]] = sepBy1(p, symbol.semi)
+                    def semiSep1[A](p: Parsley[A]): Parsley[NonEmptyList[A]] = sepBy1(p, lexer.lexeme.symbol.semi)
                     /**  This combinator parses '''one''' or more occurrences of `p`, separated by commas.
                      *
                      * First parses a `p`. Then parses a comma followed by `p` until there are no more  commas.
@@ -64,7 +64,7 @@ object cats {
                      * @return a parser that parses `p` delimited by commas, returning the list of `p`'s results.
                      * @since 1.3.0
                      */
-                    def commaSep1[A](p: Parsley[A]): Parsley[NonEmptyList[A]] = sepBy1(p, symbol.comma)
+                    def commaSep1[A](p: Parsley[A]): Parsley[NonEmptyList[A]] = sepBy1(p, lexer.lexeme.symbol.comma)
                 }
             }
         }
