@@ -1,4 +1,3 @@
-import org.scalajs.linker.interface.ESVersion
 import com.typesafe.tools.mima.core._
 
 val projectName = "parsley-cats"
@@ -19,6 +18,7 @@ val noReleaseFlagsScala3 = true // maybe some day this can be turned off...
 inThisBuild(List(
   tlBaseVersion := "1.3",
   organization := "com.github.j-mie6",
+  organizationName := "Parsley Contributors <https://github.com/j-mie6/Parsley/graphs/contributors>",
   startYear := Some(2022),
   homepage := Some(url("https://github.com/j-mie6/parsley-cats")),
   licenses := List("BSD-3-Clause" -> url("https://opensource.org/licenses/BSD-3-Clause")),

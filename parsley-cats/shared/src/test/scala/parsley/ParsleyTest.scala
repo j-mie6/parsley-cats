@@ -1,4 +1,6 @@
-/* SPDX-FileCopyrightText: © 2023 Parsley Contributors <https://github.com/j-mie6/Parsley/graphs/contributors>
+/*
+ * Copyright 2022 Typelevel
+ *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 package parsley
