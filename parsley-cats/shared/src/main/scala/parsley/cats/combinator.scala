@@ -5,13 +5,13 @@
  */
 package parsley.cats
 
-import scala.annotation.unchecked
-
 import cats.data.NonEmptyList
 
 import parsley.Parsley, Parsley.{notFollowedBy, many}
 import parsley.combinator.{manyTill}
 import parsley.lift.lift2
+
+import org.typelevel.scalaccompat.annotation.nowarn
 
 /** This module contains pre-made combinators that are very useful for a variety of purposes, specialised to `cats`.
   *
@@ -160,7 +160,7 @@ object combinator {
       * @since 1.2.0
       */
     def sepEndBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = parsley.combinator.sepEndBy1(p, sep).map { xxs =>
-        val (x::xs) = xxs: @unchecked
+        val (x::xs) = xxs: @nowarn
         NonEmptyList(x, xs)
     }
 
