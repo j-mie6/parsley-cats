@@ -6,7 +6,7 @@ package parsley.cats
 import Predef.{ArrowAssoc => _}
 
 import parsley.{ParsleyTest, Success, Failure}
-import parsley.implicits.character.{charLift, stringLift}
+import parsley.syntax.character.{charLift, stringLift}
 import parsley.cats.combinator._
 import cats.data.NonEmptyList
 
