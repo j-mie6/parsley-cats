@@ -5,13 +5,13 @@
  */
 package parsley.cats
 
+import scala.annotation.nowarn
+
 import cats.data.NonEmptyList
 
 import parsley.Parsley, Parsley.{notFollowedBy, many}
 import parsley.combinator.{manyTill}
 import parsley.lift.lift2
-
-import scala.annotation.nowarn
 
 /** This module contains pre-made combinators that are very useful for a variety of purposes, specialised to `cats`.
   *
