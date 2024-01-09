@@ -1,10 +1,12 @@
-/* SPDX-FileCopyrightText: © 2022 Parsley Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
+/*
+ * Copyright 2022 Parsley-Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
+ *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 package parsley.cats
 
 import parsley.Parsley
-import parsley.registers.{RegisterMaker, RegisterMethods}
+import parsley.state.{RefMaker, StateCombinators}
 
 import cats.{Alternative, Monad}
 
@@ -17,17 +19,17 @@ private [parsley] trait MonadForParsley extends Monad[Parsley] {
     }
 
     // Monad Overrides
-    override def ifM[B](mx: Parsley[Boolean])(ifTrue: => Parsley[B], ifFalse: => Parsley[B]): Parsley[B] = parsley.combinator.ifP(mx, ifTrue, ifFalse)
+    override def ifM[B](mx: Parsley[Boolean])(ifTrue: => Parsley[B], ifFalse: => Parsley[B]): Parsley[B] = parsley.combinator.ifS(mx, ifTrue, ifFalse)
     override def whileM_[A](p: Parsley[Boolean])(body: =>Parsley[A]): Parsley[Unit] = {
-        parsley.combinator.when(p, parsley.combinator.whileP(body ~> p))
+        parsley.combinator.whenS(p, parsley.combinator.whileS(body ~> p))
     }
-    override def untilM_[A](body: Parsley[A])(p: => Parsley[Boolean]): Parsley[Unit] = parsley.combinator.whileP(body *> p.map(!_))
+    override def untilM_[A](body: Parsley[A])(p: => Parsley[Boolean]): Parsley[Unit] = parsley.combinator.whileS(body *> p.map(!_))
 
     override def whileM[G[_]: Alternative, A](p: Parsley[Boolean])(body: => Parsley[A]): Parsley[G[A]] = {
         val G = implicitly[Alternative[G]]
-        G.empty[A].makeReg { acc =>
+        G.empty[A].makeRef { acc =>
             whileM_(p) {
-                acc.modify(body.map(x => (xs: G[A]) => G.appendK(xs, x)))
+                acc.update(body.map(x => (xs: G[A]) => G.appendK(xs, x)))
             } *> acc.get
         }
     }
@@ -44,19 +46,19 @@ private [parsley] trait MonadForParsley extends Monad[Parsley] {
 
     override def iterateUntil[A](mx: Parsley[A])(p: A => Boolean): Parsley[A] = {
         lazy val loop: Parsley[A] = mx.persist { mx =>
-            parsley.combinator.ifP(mx.map(p), mx, loop)
+            parsley.combinator.ifS(mx.map(p), mx, loop)
         }
         loop
     }
     override def iterateWhile[A](mx: Parsley[A])(p: A => Boolean): Parsley[A] = {
         lazy val loop: Parsley[A] = mx.persist { mx =>
-            parsley.combinator.ifP(mx.map(p), loop, mx)
+            parsley.combinator.ifS(mx.map(p), loop, mx)
         }
         loop
     }
     override def ifElseM[A](branches: (Parsley[Boolean], Parsley[A])*)(els: Parsley[A]): Parsley[A] = {
         branches.foldRight(els) {
-            case ((cond, t), e) => parsley.combinator.ifP(cond, t, e)
+            case ((cond, t), e) => parsley.combinator.ifS(cond, t, e)
         }
     }
 }

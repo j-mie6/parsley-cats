@@ -1,4 +1,6 @@
-/* SPDX-FileCopyrightText: © 2022 Parsley Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
+/*
+ * Copyright 2022 Parsley-Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
+ *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 package parsley.cats
@@ -20,7 +22,7 @@ private [parsley] trait ApplicativeForParsley extends Applicative[Parsley] {
     override def ap[A, B](mf: Parsley[A => B])(mx: Parsley[A]): Parsley[B] = mf <*> mx
 
     override def replicateA[A](n: Int, mx: Parsley[A]): Parsley[List[A]] = parsley.combinator.exactly(n, mx)
-    override def replicateA_[A](n: Int, mx: Parsley[A]): Parsley[Unit] = parsley.combinator.skip(mx, (1 until n).map(_ => mx): _*)
+    override def replicateA_[A](n: Int, mx: Parsley[A]): Parsley[Unit] = replicateA(n, mx).void
 
     // Maps and Tuples
     override def map2[A, B, Z](mx: Parsley[A], my: Parsley[B])(f: (A, B) => Z): Parsley[Z] = lift2(f, mx, my)

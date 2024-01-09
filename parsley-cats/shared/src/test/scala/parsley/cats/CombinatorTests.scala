@@ -1,4 +1,6 @@
-/* SPDX-FileCopyrightText: © 2023 Parsley Contributors <https://github.com/j-mie6/Parsley/graphs/contributors>
+/*
+ * Copyright 2022 Parsley-Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
+ *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 package parsley.cats
@@ -6,7 +8,7 @@ package parsley.cats
 import Predef.{ArrowAssoc => _}
 
 import parsley.{ParsleyTest, Success, Failure}
-import parsley.implicits.character.{charLift, stringLift}
+import parsley.syntax.character.{charLift, stringLift}
 import parsley.cats.combinator._
 import cats.data.NonEmptyList
 

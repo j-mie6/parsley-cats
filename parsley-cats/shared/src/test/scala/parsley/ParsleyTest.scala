@@ -1,4 +1,6 @@
-/* SPDX-FileCopyrightText: © 2023 Parsley Contributors <https://github.com/j-mie6/Parsley/graphs/contributors>
+/*
+ * Copyright 2022 Parsley-Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>
+ *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 package parsley
@@ -7,8 +9,7 @@ import org.scalatest.Assertions
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-import parsley.combinator.eof
-import parsley.Result
+import parsley.Parsley.eof
 import parsley.errors.{ErrorBuilder, tokenextractors}
 import org.scalatest.Inside
 import org.scalactic.source.Position

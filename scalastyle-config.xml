@@ -12,15 +12,6 @@
         </parameters>
     </check>
     <check enabled="true"  class="org.scalastyle.file.FileTabChecker" level="warning"/>
-    <check enabled="true" class="org.scalastyle.file.HeaderMatchesChecker" level="warning">
-        <parameters>
-            <parameter name="regex">true</parameter>
-            <parameter name="header"><![CDATA[/\* SPDX-FileCopyrightText: © \d{4} Parsley Cats Contributors <https://github\.com/j-mie6/parsley-cats/graphs/contributors>
- \* SPDX-License-Identifier: BSD-3-Clause
- \*/]]></parameter>
-        </parameters>
-        <customMessage>Each file must have a copyright notice that references the date of the file's creation, acknowledges the contributors, and declares the license.</customMessage>
-    </check>
     <check enabled="true"  class="org.scalastyle.file.NewLineAtEofChecker" level="warning"/>
     <check enabled="false" class="org.scalastyle.file.NoNewLineAtEofChecker" level="warning"/>
     <check enabled="false" class="org.scalastyle.file.RegexChecker" level="warning"/>
@@ -101,7 +92,6 @@
             <parameter name="groups">java,scala,cats,parsley,parsley.internal,others</parameter>
             <parameter name="group.java">javax?\..+</parameter>
             <parameter name="group.scala">scala\..+</parameter>
-            <parameter name="group.cats">cats\..+</parameter>
             <parameter name="group.parsley">parsley\.(?!internal).+</parameter>
             <parameter name="group.parsley.internal">parsley\.internal\..+</parameter>
             <parameter name="group.others">.+</parameter>
