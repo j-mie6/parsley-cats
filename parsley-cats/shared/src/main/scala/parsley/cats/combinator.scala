@@ -5,7 +5,7 @@
  */
 package parsley.cats
 
-import scala.annotation.nowarn
+import scala.annotation.unchecked
 
 import cats.data.NonEmptyList
 
@@ -160,7 +160,7 @@ object combinator {
       * @since 1.2.0
       */
     def sepEndBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = parsley.combinator.sepEndBy1(p, sep).map { xxs =>
-        val (x::xs) = xxs: @nowarn
+        val (x::xs) = xxs: @unchecked
         NonEmptyList(x, xs)
     }
 
