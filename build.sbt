@@ -28,7 +28,7 @@ inThisBuild(List(
     ProblemFilters.exclude[MissingClassProblem]("parsley.MonoidKForParsley"),
   ),
   // CI Configuration
-  tlCiReleaseBranches := Seq("staging/1.3"),
+  tlCiReleaseBranches := Seq("master"),
   tlCiScalafmtCheck := false,
   tlCiHeaderCheck := true,
   githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"), JavaSpec.temurin("17")),
