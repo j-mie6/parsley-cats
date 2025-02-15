@@ -24,7 +24,7 @@ matrix for `parsley-cats`:
 | `1.0.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 | `1.1.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 | `1.2.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
-| `1.3.x`                | `>= 4.5 && < 5`   | `>= 2.8 && < 3`     |
+| `1.3.x`                | `>= 4.5 && <= 5`  | `>= 2.8 && < 3`     |
 
 To make use of your favourite `cats` syntax, you'll want the following imports:
 
