@@ -5,6 +5,11 @@ val projectName = "parsley-cats"
 val Scala213 = "2.13.12"
 val Scala212 = "2.12.18"
 val Scala3 = "3.3.1"
+val Java11 = JavaSpec.temurin("11")
+val Java17 = JavaSpec.temurin("17")
+val Java21 = JavaSpec.temurin("21")
+
+val mainBranch = "master"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -28,10 +33,11 @@ inThisBuild(List(
     ProblemFilters.exclude[MissingClassProblem]("parsley.MonoidKForParsley"),
   ),
   // CI Configuration
-  tlCiReleaseBranches := Seq("master"),
+  tlCiReleaseBranches := Seq(mainBranch),
   tlCiScalafmtCheck := false,
   tlCiHeaderCheck := true,
-  githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"), JavaSpec.temurin("17")),
+  githubWorkflowJavaVersions := Seq(Java11, Java17, Java21),
+  githubWorkflowAddedJobs += testCoverageJob(githubWorkflowGeneratedCacheSteps.value.toList),
 ))
 
 lazy val root = tlCrossRootProject.aggregate(`parsley-cats`)
@@ -55,3 +61,27 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oI"),
   )
+
+def testCoverageJob(cacheSteps: List[WorkflowStep]) = WorkflowJob(
+    id = "coverage",
+    name = "Run Test Coverage and Upload",
+    cond = Some(s"github.ref == 'refs/heads/$mainBranch' || (github.event_name == 'pull_request' && github.base_ref == '$mainBranch')"),
+    steps =
+        WorkflowStep.Checkout ::
+        WorkflowStep.SetupSbt ::
+        WorkflowStep.SetupJava(List(Java11)) :::
+        cacheSteps ::: List(
+            WorkflowStep.Sbt(name = Some("Generate coverage report"), commands = List("coverage", "parsley / test", "parsleyDebug / test", "coverageReport")),
+            WorkflowStep.Use(
+                name = Some("Upload coverage to Code Climate"),
+                ref = UseRef.Public(owner = "paambaati", repo = "codeclimate-action", ref = "v3.2.0"),
+                env = Map("CC_TEST_REPORTER_ID" -> "c1f669dece75a1d69bf0dc45a682d64837badc112b8098271ccc0dca1bbc7a09"),
+                params = Map("coverageLocations" -> Seq(
+                    coverageReport("parsley"),
+                    coverageReport("parsley-debug"),
+                ).mkString("\n")),
+            )
+        )
+)
+
+def coverageReport(project: String) = s"$${{github.workspace}}/$project/jvm/target/scala-2.13/coverage-report/cobertura.xml:cobertura"
