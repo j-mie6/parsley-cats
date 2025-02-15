@@ -6,6 +6,7 @@
 package parsley.cats
 
 import cats.data.NonEmptyList
+import cats.{Monoid, Semigroup}
 
 import parsley.Parsley, Parsley.{notFollowedBy, many}
 import parsley.combinator.{manyTill}
@@ -187,4 +188,9 @@ object combinator {
       * @since 1.2.0
       */
     def endBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = some(p <* sep)
+
+    implicit class FoldingCombinators[A](p: Parsley[A]) {
+        def manyMap[M: Monoid](f: A => M): Parsley[M] = p.foldLeft(Monoid[M].empty)((m, x) => Monoid[M].combine(m, f(x)))
+        def someMap[S: Semigroup](f: A => S): Parsley[S] = p.map(f).reduceLeft(Semigroup[S].combine)
+    }
 }
