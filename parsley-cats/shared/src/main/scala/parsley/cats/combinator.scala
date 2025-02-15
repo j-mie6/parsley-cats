@@ -189,8 +189,31 @@ object combinator {
       */
     def endBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = some(p <* sep)
 
+    /** This class enables extension methods to collapse repeated parser results using semigroups and monoids.
+      * @since 1.4.0
+      */
     implicit class FoldingCombinators[A](p: Parsley[A]) {
+        /** This combinator acts like `foldMap` function but operating on a parser.
+          *
+          * The parser `this.manyMap(f)` will parse this parser '''zero''' or more times transforming the
+          * values with `f` and collapsing them together using the monoid on `M`.
+          *
+          * @param f injection function for parser results into monoid `M`.
+          * @return a parser that repeatedly parses this parser, converting each result to an `M` with `f`,
+          *         collecting the results together using Monoid[M].combine.
+          * @since 1.4.0
+          */
         def manyMap[M: Monoid](f: A => M): Parsley[M] = p.foldLeft(Monoid[M].empty)((m, x) => Monoid[M].combine(m, f(x)))
+        /** This combinator acts like `reduceMap` function but operating on a parser.
+          *
+          * The parser `this.someMap(f)` will parse this parser '''one''' or more times transforming the
+          * values with `f` and collapsing them together using the semigroup on `S`.
+          *
+          * @param f injection function for parser results into semigroup `S`.
+          * @return a parser that repeatedly parses this parser, converting each result to an `S` with `f`,
+          *         collecting the results together using Semigroup[S].combine.
+          * @since 1.4.0
+          */
         def someMap[S: Semigroup](f: A => S): Parsley[S] = p.map(f).reduceLeft(Semigroup[S].combine)
     }
 }
