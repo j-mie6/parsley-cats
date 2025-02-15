@@ -6,12 +6,15 @@ Care should still be taken to not define truly recursive parsers using the `cats
 may be generally recursive, just slow). In particular, make use of `Defer[Parsley].fix`
 to handle recursion, or plain `lazy val` based construction (as in regular `parsley` use).
 
+It also includes helpful combinators to integrate with `cats` abstractions, like non-empty datastructures
+and `Monoid`/`Semigroup`.
+
 ## How do I use it? [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats) [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=sjs1)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats) [![parsley-cats Scala version support](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats/latest-by-scala-version.svg?platform=native0.4)](https://index.scala-lang.org/j-mie6/parsley-cats/parsley-cats)
 
 Parsley cats is distributed on Maven Central, and can be added to your project via:
 
 ```scala
-libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "1.3.0"
+libraryDependencies += "com.github.j-mie6" %% "parsley-cats" % "1.4.0"
 ```
 
 it requires `parsley` and `cats-core` to also be dependencies of your project. The current version
@@ -24,7 +27,10 @@ matrix for `parsley-cats`:
 | `1.0.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 | `1.1.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
 | `1.2.x`                | `>= 4 && < 5`     | `>= 2.8 && < 3`     |
-| `1.3.x`                | `>= 4.5 && <= 5`  | `>= 2.8 && < 3`     |
+| `1.3.x`                | `>= 4.5 && <=5`*  | `>= 2.8 && < 3`     |
+| `1.4.x`                | `>= 4.5 && <=5`*  | `>= 2.8 && < 3`     |
+
+_(* `parsley-5.x` compatibility is not gauranteed, but is likely to still work, please report any issues)_
 
 To make use of your favourite `cats` syntax, you'll want the following imports:
 
