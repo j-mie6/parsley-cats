@@ -5,12 +5,13 @@
  */
 package parsley.cats
 
-import Predef.{ArrowAssoc => _}
+import Predef.{ArrowAssoc => _, _}
 
 import parsley.{ParsleyTest, Success, Failure}
+import parsley.character.digit
 import parsley.syntax.character.{charLift, stringLift}
 import parsley.cats.combinator._
-import cats.data.NonEmptyList
+import cats.data.{NonEmptyList, NonEmptySet}
 
 class CombinatorTests extends ParsleyTest {
     "sepBy1" must "not allow sep at the end of chain" in cases(sepBy1('a', 'b')) (
@@ -61,5 +62,24 @@ class CombinatorTests extends ParsleyTest {
     it must "require a p" in {
         endBy1('a', 'b').parse("ab") should not be a [Failure[_]]
         endBy1('a', 'b').parse(input = "") shouldBe a [Failure[_]]
+    }
+
+    "manyMap" should "collapse zero or more things" in {
+        val p = digit.manyMap(Set(_))
+
+        p.parse("") should be (Success(Set.empty))
+        p.parse("1231") should be (Success(Set('1', '2', '3')))
+    }
+    it should "work for option lifted semigroups" in {
+        val p = digit.manyMap[Option[NonEmptySet[Char]]](c => Some(NonEmptySet.one(c)))
+        p.parse("") should be (Success(None))
+        p.parse("1231") should be (Success(Some(NonEmptySet.of('1', '2', '3'))))
+    }
+
+    "someMap" should "collapse one or more things" in {
+        val p = digit.someMap(NonEmptySet.one(_))
+
+        p.parse("") shouldBe a [Failure[_]]
+        p.parse("1231") should be (Success(NonEmptySet.of('1', '2', '3')))
     }
 }
