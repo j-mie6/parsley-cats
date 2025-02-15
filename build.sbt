@@ -2,9 +2,9 @@ import org.scalajs.linker.interface.ESVersion
 import com.typesafe.tools.mima.core._
 
 val projectName = "parsley-cats"
-val Scala213 = "2.13.12"
+val Scala213 = "2.13.14"
 val Scala212 = "2.12.18"
-val Scala3 = "3.3.1"
+val Scala3 = "3.3.3"
 val Java11 = JavaSpec.temurin("11")
 val Java17 = JavaSpec.temurin("17")
 val Java21 = JavaSpec.temurin("21")
@@ -14,7 +14,7 @@ val mainBranch = "master"
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(List(
-  tlBaseVersion := "1.4",
+  tlBaseVersion := "1.5",
   organization := "com.github.j-mie6",
   organizationName := "Parsley-Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>",
   startYear := Some(2022),
@@ -53,14 +53,23 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 
     resolvers ++= Opts.resolver.sonatypeOssReleases, // Will speed up MiMA during fast back-to-back releases
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "cats-core" % "2.8.0",
-      "com.github.j-mie6" %%% "parsley" % "4.5.0",
-      "org.scalatest" %%% "scalatest" % "3.2.17" % Test,
-      "org.typelevel" %%% "cats-laws" % "2.8.0" % Test,
+      "org.typelevel" %%% "cats-core" % "2.12.0",
+      "com.github.j-mie6" %%% "parsley" % "4.6.0",
+      "org.scalatest" %%% "scalatest" % "3.2.19" % Test,
+      "org.typelevel" %%% "cats-laws" % "2.12.0" % Test,
     ),
 
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oI"),
   )
+  // 1.5.0 bumped to 0.5, which means the old versions are unfindable (remove at 2.0.0)
+  .nativeSettings(
+    tlVersionIntroduced := Map(
+      "2.13" -> "1.5.0",
+      "2.12" -> "1.5.0",
+      "3"    -> "1.5.0",
+    ),
+  )
+
 
 def testCoverageJob(cacheSteps: List[WorkflowStep]) = WorkflowJob(
     id = "coverage",
