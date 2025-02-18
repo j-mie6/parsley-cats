@@ -14,7 +14,7 @@ val mainBranch = "master"
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(List(
-  tlBaseVersion := "1.5",
+  tlBaseVersion := "2.0",
   organization := "com.github.j-mie6",
   organizationName := "Parsley-Cats Contributors <https://github.com/j-mie6/parsley-cats/graphs/contributors>",
   startYear := Some(2022),
@@ -23,15 +23,6 @@ inThisBuild(List(
   versionScheme := Some("early-semver"),
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
   scalaVersion := Scala213,
-  mimaBinaryIssueFilters ++= Seq(
-    // Until 2.0 (these are all misreported package private members)
-    ProblemFilters.exclude[MissingClassProblem]("parsley.ApplicativeForParsley"),
-    ProblemFilters.exclude[MissingClassProblem]("parsley.DeferForParsley"),
-    ProblemFilters.exclude[MissingClassProblem]("parsley.FunctorFilterForParsley"),
-    ProblemFilters.exclude[MissingClassProblem]("parsley.FunctorForParsley"),
-    ProblemFilters.exclude[MissingClassProblem]("parsley.MonadForParsley"),
-    ProblemFilters.exclude[MissingClassProblem]("parsley.MonoidKForParsley"),
-  ),
   // CI Configuration
   tlCiReleaseBranches := Seq(mainBranch),
   tlCiScalafmtCheck := false,
@@ -60,14 +51,6 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     ),
 
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oI"),
-  )
-  // 1.5.0 bumped to 0.5, which means the old versions are unfindable (remove at 2.0.0)
-  .nativeSettings(
-    tlVersionIntroduced := Map(
-      "2.13" -> "1.5.0",
-      "2.12" -> "1.5.0",
-      "3"    -> "1.5.0",
-    ),
   )
 
 
