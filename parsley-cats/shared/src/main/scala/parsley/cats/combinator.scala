@@ -20,7 +20,7 @@ import parsley.lift.lift2
   * @since 1.2.0
   */
 object combinator {
-    private [cats] def nonEmptyList[A](p: Parsley[A], ps: =>Parsley[List[A]]) = lift2[A, List[A], NonEmptyList[A]](NonEmptyList(_, _), p, ps)
+    private [cats] def nonEmptyFrom[A, NEC](factory: NEFactory[A, NEC])(p: Parsley[A], ps: =>Parsley[factory.C]) = lift2[A, factory.C, NEC](factory.nec, p, ps)
 
     /** This combinator repeatedly parses a given parser '''one''' or more times, collecting the results into a list.
       *
@@ -47,7 +47,8 @@ object combinator {
       * @return a parser that parses `p` until it fails, returning the non-empty list of all the successful results.
       * @since 1.2.0
       */
-    def some[A](p: Parsley[A]): Parsley[NonEmptyList[A]] = nonEmptyList(p, many(p))
+    def some[A](p: Parsley[A]): Parsley[NonEmptyList[A]] = some(p, NEFactory.nelFactory[A](NonEmptyList))
+    def some[A, NEC](p: Parsley[A], factory: NEFactory[A, NEC]): Parsley[NEC] = nonEmptyFrom(factory)(p, many[A, factory.C](p, factory.factory))
 
     /** This combinator repeatedly parses a given parser '''one''' or more times, until the `end` parser succeeds, collecting the results into a list.
       *
@@ -75,7 +76,9 @@ object combinator {
       * @return a parser that parses `p` until `end` succeeds, returning the non-empty list of all the successful results.
       * @since 1.3.0
       */
-    def someTill[A](p: Parsley[A], end: Parsley[_]): Parsley[NonEmptyList[A]] = notFollowedBy(end) *> (nonEmptyList(p, manyTill(p, end)))
+    def someTill[A](p: Parsley[A], end: Parsley[?]): Parsley[NonEmptyList[A]] = someTill(p, end, NEFactory.nelFactory[A](NonEmptyList))
+    def someTill[A, NEC](p: Parsley[A], end: Parsley[?], factory: NEFactory[A, NEC]): Parsley[NEC] =
+        notFollowedBy(end) ~> (nonEmptyFrom(factory)(p, manyTill[A, factory.C](p, end, factory.factory)))
 
     /** This combinator parses '''one''' or more occurrences of `p`, separated by `sep`.
       *
@@ -102,7 +105,9 @@ object combinator {
       * @return a parser that parses `p` delimited by `sep`, returning the non-empty list of `p`'s results.
       * @since 1.2.0
       */
-    def sepBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = nonEmptyList(p, many(sep *> p))
+    def sepBy1[A](p: Parsley[A], sep: =>Parsley[?]): Parsley[NonEmptyList[A]] = sepBy1(p, sep, NEFactory.nelFactory[A](NonEmptyList))
+    def sepBy1[A, NEC](p: Parsley[A], sep: =>Parsley[?], factory: NEFactory[A, NEC]): Parsley[NEC] =
+        nonEmptyFrom(factory)(p, many[A, factory.C](sep *> p, factory.factory))
 
     /** This combinator parses '''one''' or more occurrences of `p`, separated and optionally ended by `sep`.
       *
@@ -129,10 +134,9 @@ object combinator {
       * @return a parser that parses `p` delimited by `sep`, returning the non-empty list of `p`'s results.
       * @since 1.2.0
       */
-    def sepEndBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = parsley.combinator.sepEndBy1(p, sep).map { xxs =>
-        val (x::xs) = xxs: @unchecked
-        NonEmptyList(x, xs)
-    }
+    def sepEndBy1[A](p: Parsley[A], sep: =>Parsley[?]): Parsley[NonEmptyList[A]] = sepEndBy1(p, sep, NEFactory.nelFactory[A](NonEmptyList))
+    def sepEndBy1[A, NEC](p: Parsley[A], sep: =>Parsley[?], factory: NEFactory[A, NEC]): Parsley[NEC] =
+        parsley.combinator.sepEndBy1(p, sep, factory.factory).map(factory.unsafeNec)
 
     /** This combinator parses '''one''' or more occurrences of `p`, separated and ended by `sep`.
       *
@@ -158,7 +162,7 @@ object combinator {
       * @return a parser that parses `p` delimited by `sep`, returning the non-empty list of `p`'s results.
       * @since 1.2.0
       */
-    def endBy1[A](p: Parsley[A], sep: =>Parsley[_]): Parsley[NonEmptyList[A]] = some(p <* sep)
+    def endBy1[A](p: Parsley[A], sep: =>Parsley[?]): Parsley[NonEmptyList[A]] = some(p <* sep)
 
     /** This class enables extension methods to collapse repeated parser results using semigroups and monoids.
       * @since 1.4.0
