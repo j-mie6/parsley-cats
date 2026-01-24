@@ -5,12 +5,12 @@
  */
 package parsley.cats
 
-import Predef.{ArrowAssoc => _, _}
+import Predef.{ArrowAssoc as _, *}
 
 import parsley.{ParsleyTest, Success, Failure}
 import parsley.character.digit
 import parsley.syntax.character.{charLift, stringLift}
-import parsley.cats.combinator._
+import parsley.cats.combinator.*
 import cats.data.{NonEmptyList, NonEmptySet}
 
 class CombinatorTests extends ParsleyTest {
@@ -47,12 +47,12 @@ class CombinatorTests extends ParsleyTest {
         "ab" -> None,
     )
     it must "require a p" in {
-        sepEndBy1('a', 'b').parse("a") should not be a [Failure[_]]
-        sepEndBy1('a', 'b').parse(input = "") shouldBe a [Failure[_]]
+        sepEndBy1('a', 'b').parse("a") should not be a [Failure[?]]
+        sepEndBy1('a', 'b').parse(input = "") shouldBe a [Failure[?]]
     }
 
     "endBy1" must "require sep at end of chain" in {
-        endBy1('a', 'b').parse("a") shouldBe a [Failure[_]]
+        endBy1('a', 'b').parse("a") shouldBe a [Failure[?]]
         endBy1('a', 'b').parse("ab") should be (Success(NonEmptyList.of('a')))
     }
     it should "be able to parse 2 or more p" in {
@@ -60,8 +60,8 @@ class CombinatorTests extends ParsleyTest {
         endBy1('a', 'b').parse("ababab") should be (Success(NonEmptyList.of('a', 'a', 'a')))
     }
     it must "require a p" in {
-        endBy1('a', 'b').parse("ab") should not be a [Failure[_]]
-        endBy1('a', 'b').parse(input = "") shouldBe a [Failure[_]]
+        endBy1('a', 'b').parse("ab") should not be a [Failure[?]]
+        endBy1('a', 'b').parse(input = "") shouldBe a [Failure[?]]
     }
 
     "manyMap" should "collapse zero or more things" in {
@@ -79,7 +79,7 @@ class CombinatorTests extends ParsleyTest {
     "someMap" should "collapse one or more things" in {
         val p = digit.someMap(NonEmptySet.one(_))
 
-        p.parse("") shouldBe a [Failure[_]]
+        p.parse("") shouldBe a [Failure[?]]
         p.parse("1231") should be (Success(NonEmptySet.of('1', '2', '3')))
     }
 }

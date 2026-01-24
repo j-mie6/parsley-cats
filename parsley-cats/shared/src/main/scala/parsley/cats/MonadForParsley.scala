@@ -21,7 +21,7 @@ private [parsley] trait MonadForParsley extends Monad[Parsley] {
     // Monad Overrides
     override def ifM[B](mx: Parsley[Boolean])(ifTrue: => Parsley[B], ifFalse: => Parsley[B]): Parsley[B] = parsley.combinator.ifS(mx, ifTrue, ifFalse)
     override def whileM_[A](p: Parsley[Boolean])(body: =>Parsley[A]): Parsley[Unit] = {
-        parsley.combinator.whenS(p, parsley.combinator.whileS(body ~> p))
+        parsley.combinator.whenS(p)(parsley.combinator.whileS(body ~> p))
     }
     override def untilM_[A](body: Parsley[A])(p: => Parsley[Boolean]): Parsley[Unit] = parsley.combinator.whileS(body *> p.map(!_))
 

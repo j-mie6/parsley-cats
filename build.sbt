@@ -2,14 +2,14 @@ import org.scalajs.linker.interface.ESVersion
 import com.typesafe.tools.mima.core._
 
 val projectName = "parsley-cats"
-val Scala213 = "2.13.14"
-val Scala212 = "2.12.18"
-val Scala3 = "3.3.3"
+val Scala213 = "2.13.18"
+val Scala212 = "2.12.20"
+val Scala3 = "3.3.7"
 val Java11 = JavaSpec.temurin("11")
 val Java17 = JavaSpec.temurin("17")
 val Java21 = JavaSpec.temurin("21")
 
-val mainBranch = "master"
+val mainBranch = "staging/2.0"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -22,13 +22,14 @@ inThisBuild(List(
   licenses := List("BSD-3-Clause" -> url("https://opensource.org/licenses/BSD-3-Clause")),
   versionScheme := Some("early-semver"),
   crossScalaVersions := Seq(Scala213, Scala212, Scala3),
-  scalaVersion := Scala213,
+  scalaVersion := Scala3,
   // CI Configuration
   tlCiReleaseBranches := Seq(mainBranch),
   tlCiScalafmtCheck := false,
   tlCiHeaderCheck := true,
   githubWorkflowJavaVersions := Seq(Java11, Java17, Java21),
-  githubWorkflowAddedJobs += testCoverageJob(githubWorkflowGeneratedCacheSteps.value.toList),
+  //githubWorkflowAddedJobs += testCoverageJob(githubWorkflowGeneratedCacheSteps.value.toList),
+  githubWorkflowConcurrency := None, // this allows us to not fail the pipeline on double commit
 ))
 
 lazy val root = tlCrossRootProject.aggregate(`parsley-cats`)
@@ -42,10 +43,10 @@ lazy val `parsley-cats` = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     headerLicenseStyle := HeaderLicenseStyle.SpdxSyntax,
     headerEmptyLine := false,
 
-    resolvers ++= Opts.resolver.sonatypeOssReleases, // Will speed up MiMA during fast back-to-back releases
+    //resolvers ++= Opts.resolver.sonatypeOssReleases, // Will speed up MiMA during fast back-to-back releases
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % "2.12.0",
-      "com.github.j-mie6" %%% "parsley" % "4.6.0",
+      "com.github.j-mie6" %%% "parsley" % "5.0.0-M13",
       "org.scalatest" %%% "scalatest" % "3.2.19" % Test,
       "org.typelevel" %%% "cats-laws" % "2.12.0" % Test,
     ),
