@@ -17,11 +17,6 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
-concurrency:
-  group: ${{ github.workflow }} @ ${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
     name: Test
@@ -32,13 +27,13 @@ jobs:
         java: [temurin@11, temurin@17, temurin@21]
         project: [rootJS, rootJVM, rootNative]
         exclude:
-          - scala: 2.12
+          - scala: 2.13
             java: temurin@17
-          - scala: 2.12
+          - scala: 2.13
             java: temurin@21
-          - scala: 3
+          - scala: 2.12
             java: temurin@17
-          - scala: 3
+          - scala: 2.12
             java: temurin@21
           - project: rootJS
             java: temurin@17
@@ -52,7 +47,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Checkout current branch (full)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -62,7 +57,7 @@ jobs:
       - name: Setup Java (temurin@11)
         id: setup-java-temurin-11
         if: matrix.java == 'temurin@11'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 11
@@ -75,7 +70,7 @@ jobs:
       - name: Setup Java (temurin@17)
         id: setup-java-temurin-17
         if: matrix.java == 'temurin@17'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
@@ -88,7 +83,7 @@ jobs:
       - name: Setup Java (temurin@21)
         id: setup-java-temurin-21
         if: matrix.java == 'temurin@21'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -125,15 +120,15 @@ jobs:
         run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' doc
 
       - name: Make target directories
-        if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master')
+        if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/staging/2.0')
         run: mkdir -p parsley-cats/js/target parsley-cats/jvm/target parsley-cats/native/target project/target
 
       - name: Compress target directories
-        if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master')
+        if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/staging/2.0')
         run: tar cf targets.tar parsley-cats/js/target parsley-cats/jvm/target parsley-cats/native/target project/target
 
       - name: Upload target directories
-        if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master')
+        if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/staging/2.0')
         uses: actions/upload-artifact@v4
         with:
           name: target-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.scala }}-${{ matrix.project }}
@@ -142,7 +137,7 @@ jobs:
   publish:
     name: Publish Artifacts
     needs: [build]
-    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master')
+    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/staging/2.0')
     strategy:
       matrix:
         os: [ubuntu-22.04]
@@ -150,7 +145,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -160,7 +155,7 @@ jobs:
       - name: Setup Java (temurin@11)
         id: setup-java-temurin-11
         if: matrix.java == 'temurin@11'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 11
@@ -173,7 +168,7 @@ jobs:
       - name: Setup Java (temurin@17)
         id: setup-java-temurin-17
         if: matrix.java == 'temurin@17'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
@@ -186,7 +181,7 @@ jobs:
       - name: Setup Java (temurin@21)
         id: setup-java-temurin-21
         if: matrix.java == 'temurin@21'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -320,7 +315,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -330,7 +325,7 @@ jobs:
       - name: Setup Java (temurin@11)
         id: setup-java-temurin-11
         if: matrix.java == 'temurin@11'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 11
@@ -343,7 +338,7 @@ jobs:
       - name: Setup Java (temurin@17)
         id: setup-java-temurin-17
         if: matrix.java == 'temurin@17'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
@@ -356,7 +351,7 @@ jobs:
       - name: Setup Java (temurin@21)
         id: setup-java-temurin-21
         if: matrix.java == 'temurin@21'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -371,42 +366,3 @@ jobs:
         with:
           modules-ignore: rootjs_2.13 rootjs_2.12 rootjs_3 rootjvm_2.13 rootjvm_2.12 rootjvm_3 rootnative_2.13 rootnative_2.12 rootnative_3
           configs-ignore: test scala-tool scala-doc-tool test-internal
-
-  coverage:
-    name: Run Test Coverage and Upload
-    if: github.ref == 'refs/heads/master' || (github.event_name == 'pull_request' && github.base_ref == 'master')
-    strategy:
-      matrix:
-        os: [ubuntu-22.04]
-        scala: [2.13]
-        java: [temurin@11]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout current branch (fast)
-        uses: actions/checkout@v4
-
-      - name: Setup sbt
-        uses: sbt/setup-sbt@v1
-
-      - name: Setup Java (temurin@11)
-        id: setup-java-temurin-11
-        if: matrix.java == 'temurin@11'
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 11
-          cache: sbt
-
-      - name: sbt update
-        if: matrix.java == 'temurin@11' && steps.setup-java-temurin-11.outputs.cache-hit == 'false'
-        run: sbt +update
-
-      - name: Generate coverage report
-        run: sbt '++ ${{ matrix.scala }}' coverage 'parsley-cats / test' coverageReport
-
-      - name: Upload coverage to Code Climate
-        env:
-          CC_TEST_REPORTER_ID: 9eaba49e557ae0578e3c7c022038a3641f3524b429ab2379ea6f83ca38c5440e
-        uses: paambaati/codeclimate-action@v3.2.0
-        with:
-          coverageLocations: '${{github.workspace}}/parsley-cats/jvm/target/scala-2.13/coverage-report/cobertura.xml:cobertura'

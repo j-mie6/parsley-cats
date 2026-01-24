@@ -26,7 +26,7 @@ case class Named(item: String) extends TestErrorItem
 case object EndOfInput extends TestErrorItem
 
 class TestErrorBuilder extends ErrorBuilder[TestError] with tokenextractors.MatchParserDemand {
-    override def format(pos: Position, source: Source, lines: ErrorInfoLines): TestError = TestError(pos, lines)
+    override def build(pos: Position, source: Source, lines: ErrorInfoLines): TestError = TestError(pos, lines)
 
     type Position = (Int, Int)
     override def pos(line: Int, col: Int): Position = (line, col)
@@ -38,7 +38,7 @@ class TestErrorBuilder extends ErrorBuilder[TestError] with tokenextractors.Matc
     override def vanillaError(unexpected: UnexpectedLine, expected: ExpectedLine, reasons: Messages, line: LineInfo): ErrorInfoLines = {
         VanillaError(unexpected, expected, reasons)
     }
-    override def specialisedError(msgs: Messages, line: LineInfo): ErrorInfoLines = SpecialisedError(msgs)
+    override def specializedError(msgs: Messages, line: LineInfo): ErrorInfoLines = SpecialisedError(msgs)
 
     type ExpectedItems = Set[Item]
     override def combineExpectedItems(alts: Set[Item]): ExpectedItems = alts
@@ -56,7 +56,7 @@ class TestErrorBuilder extends ErrorBuilder[TestError] with tokenextractors.Matc
     override def message(msg: String): Message = msg
 
     type LineInfo = Unit
-    override def lineInfo(line: String, linesBefore: Seq[String], linesAfter: Seq[String], errorPointsAt: Int, errorWidth: Int): Unit = ()
+    override def lineInfo(line: String, linesBefore: Seq[String], linesAfter: Seq[String], lineNum: Int, errorPointsAt: Int, errorWidth: Int): Unit = ()
 
     override val numLinesBefore: Int = 2
     override val numLinesAfter: Int = 2
